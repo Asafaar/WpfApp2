@@ -16,4 +16,5 @@ Simple and clean calculator with modern UI.
 ---
 
 **Built with C# and WPF**
+
 <img src="Image.png" alt="Calculator Screenshot" width="200">
