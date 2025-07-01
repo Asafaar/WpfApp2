@@ -1,0 +1,177 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Simple Calculator" Height="550" Width="380" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        Background="#1E1E1E">
+
+    <Window.Resources>
+       
+        <Style x:Key="RoundButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="25"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Style of number button -->
+        <Style x:Key="NumberButton" TargetType="Button" BasedOn="{StaticResource RoundButton}">
+            <Setter Property="Background" Value="#333333"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <!-- Style of action button -->
+        <Style x:Key="OperationButton" TargetType="Button" BasedOn="{StaticResource RoundButton}">
+            <Setter Property="Background" Value="#FF9500"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <!-- Style of Function button -->
+        <Style x:Key="FunctionButton" TargetType="Button" BasedOn="{StaticResource RoundButton}">
+            <Setter Property="Background" Value="#505050"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <!-- Style of Equals button -->
+        <Style x:Key="EqualsButton" TargetType="Button" BasedOn="{StaticResource RoundButton}">
+            <Setter Property="Background" Value="#FF9500"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#1E1E1E" Offset="0"/>
+                <GradientStop Color="#2D2D2D" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- The display -->
+        <Border Grid.Row="0" Margin="15,20,15,10" CornerRadius="15">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#2A2A2A" Offset="0"/>
+                    <GradientStop Color="#1A1A1A" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.Effect>
+                <DropShadowEffect Color="Black" ShadowDepth="5" BlurRadius="10" Opacity="0.5"/>
+            </Border.Effect>
+            <TextBox x:Name="DisplayTextBox" 
+                     FontSize="36" 
+                     FontWeight="Light"
+                     FontFamily="Segoe UI Light"
+                     HorizontalContentAlignment="Right"
+                     VerticalContentAlignment="Center"
+                     IsReadOnly="True"
+                     Background="Transparent"
+                     Foreground="#FFFFFF"
+                     BorderThickness="0"
+                     Text="0"
+                     Padding="20,10"/>
+        </Border>
+
+        <!-- Calculator buttons -->
+        <Grid Grid.Row="1" Margin="15,10,15,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Row number 1 -->
+            <Button Grid.Row="0" Grid.Column="0" Content="C" Click="Clear_Click" 
+                    Style="{StaticResource FunctionButton}"/>
+            <Button Grid.Row="0" Grid.Column="1" Content="CE" Click="ClearEntry_Click" 
+                    Style="{StaticResource FunctionButton}"/>
+            <Button Grid.Row="0" Grid.Column="2" Content="⌫" Click="Backspace_Click" 
+                    Style="{StaticResource FunctionButton}"/>
+            <Button Grid.Row="0" Grid.Column="3" Content="÷" Click="Operation_Click" Tag="/"
+                    Style="{StaticResource OperationButton}"/>
+
+            <!-- Row number 2 -->
+            <Button Grid.Row="1" Grid.Column="0" Content="7" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="1" Grid.Column="1" Content="8" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="1" Grid.Column="2" Content="9" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="1" Grid.Column="3" Content="×" Click="Operation_Click" Tag="*"
+                    Style="{StaticResource OperationButton}"/>
+
+            <!-- Row number 3 -->
+            <Button Grid.Row="2" Grid.Column="0" Content="4" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="5" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="2" Grid.Column="2" Content="6" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="2" Grid.Column="3" Content="−" Click="Operation_Click" Tag="-"
+                    Style="{StaticResource OperationButton}"/>
+
+            <!-- Row number4 -->
+            <Button Grid.Row="3" Grid.Column="0" Content="1" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="3" Grid.Column="1" Content="2" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="3" Grid.Column="2" Content="3" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="3" Grid.Column="3" Content="+" Click="Operation_Click" Tag="+"
+                    Style="{StaticResource OperationButton}"/>
+
+            <!-- Row number 5 -->
+            <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="0" Click="Number_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="4" Grid.Column="2" Content="." Click="Decimal_Click" 
+                    Style="{StaticResource NumberButton}"/>
+            <Button Grid.Row="4" Grid.Column="3" Content="=" Click="Equals_Click" 
+                    Style="{StaticResource EqualsButton}"/>
+        </Grid>
+    </Grid>
+</Window>
